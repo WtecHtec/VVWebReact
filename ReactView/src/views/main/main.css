@@ -23,3 +23,10 @@
   .ant-layout {
       height: 100%;
   }
+
+  .header-name {
+    line-height: 64px;
+    font-weight: 700;
+    font-size: 18px;
+    padding-right: 24px;
+  }

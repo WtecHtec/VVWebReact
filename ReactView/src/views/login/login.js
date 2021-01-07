@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './login.css'
-import { Form, Input, Button } from 'antd';
+import { message,Form, Input, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import cookie from 'react-cookies'
-
+import httpRequest from '../../uitls/axios/axios'
 
 const layout = {
     labelCol: { span: 8 },
@@ -62,7 +62,10 @@ class Login extends React.Component {
             <Form.Item
             label="Name"
             name="Name"
-            rules={[{ required: true, message: 'Please input your Name!' }]}
+            rules={[
+                { required: true, message: 'Please input your Name!' },
+                { whitespace: true, message: 'Name cannot be a space!' }
+            ]}
             >
              <Input />
             </Form.Item>
@@ -96,17 +99,56 @@ class Login extends React.Component {
         )
     }
      
+    signInReq(values){
+        let params = {
+            email: values.Email,
+            password:  values.password,
+            cip: returnCitySN["cip"],
+            cname: returnCitySN["cname"]
+        }
+        httpRequest.post('/signIn',params).then((res)=>{
+            console.log('signInReq res:',res)
+            if (res.status === 201) {
+                message.error('Incorrect password or email!');
+            } else if (res.status === 200) {
+                cookie.save('authorityVal',res.data.authorization)
+                delete res.data.authorization
+                cookie.save('userInfo',res.data)
+                this.props.history.push('/');
+            }
+           
+        }).catch((err)=>{console.log('signInReq err:',err)})
+    }
+
+    signUpReq(values){
+        let params = {
+            username:values.Name,
+            email: values.Email,
+            password:  values.password
+        }
+        httpRequest.post('/signUp',params).then((res)=>{
+            console.log('signUp res:',res)
+            if (res.status === 201) {
+                message.info('email 已被占用 !');
+            } else {
+                message.success('注册成功');
+            }
+        }).catch((err)=>{console.log('signUp err:',err)})
+
+    }
   
     
     // 登陆dom
     loginDom () {
 
-     
-
         const onFinish = values => {
             console.log('Success:', values);
-            cookie.save('authorityVal','authorityVal')
-            this.props.history.push('/'); // 主页面
+            if ( this.state.isSiginUp ) {
+                this.signUpReq(values)
+            } else {
+                this.signInReq(values)
+            }
+            // this.props.history.push('/'); // 主页面
 
           };
         
@@ -132,7 +174,10 @@ class Login extends React.Component {
                 <Form.Item
                     label="Email"
                     name="Email"
-                    rules={[{ required: true, message: 'Please input your Email!' }]}
+                    rules={[
+                        { required: true, message: 'Please input your Email!' },
+                        {  type: 'email', message: 'The input is not valid E-mail!'  }
+                    ]}
                 >
                     <Input />
                 </Form.Item>
@@ -140,7 +185,10 @@ class Login extends React.Component {
                 <Form.Item
                     label="Password"
                     name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
+                    rules={[ 
+                        { required: true, message: 'Please input your password!' },
+                        { whitespace: true, message: 'Password cannot be a space!' }
+                    ]}
                 >
                     <Input.Password />
                 </Form.Item>

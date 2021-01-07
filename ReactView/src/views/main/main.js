@@ -8,7 +8,7 @@ import {
     MenuFoldOutlined,
     MacCommandOutlined,
     VideoCameraOutlined,
-    UploadOutlined,
+    SmileOutlined,
   } from '@ant-design/icons';
   
 const { Header, Sider, Content } = Layout;
@@ -19,7 +19,8 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state={ 
-            collapsed: false
+            collapsed: false,
+            userName: cookie.load('userInfo').username
         }
 
         this.toggle = () => {
@@ -30,13 +31,12 @@ class Main extends React.Component {
 
     }
     componentDidMount() {
-        console.log('componentDidMount', 'ajax 绑定')
         let authorityVal = cookie.load('authorityVal')
         if (!authorityVal) {
             this.props.history.push('/login'); // 跳回登录页
             return
         } else {
-            // this.props.history.push('/main');
+            this.props.history.push('/main');
         }
     }
 
@@ -79,11 +79,20 @@ class Main extends React.Component {
                 </Menu>
               </Sider>
               <Layout className="site-layout">
-                <Header className="site-layout-background" style={{ padding: 0 }}>
-                  {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                    className: 'trigger',
-                    onClick: this.toggle,
-                  })}
+                <Header className="site-layout-background" style={{ padding: 0,display:'flex',justifyContent:'space-between' }}>
+                  <div>
+                    {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                      className: 'trigger',
+                      onClick: this.toggle,
+                    })}
+                  </div>
+
+                  <div>
+                    <SmileOutlined  className="trigger"  style={{ color:'#409EFF' }}/>
+                    <span  className="header-name">{ this.state.userName  }</span>
+                  </div>
+                 
+                   
                 </Header>
                 <Content
                   className="site-layout-background"

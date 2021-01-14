@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	
+		<link rel="stylesheet" href="./public/libs/grapes/css/grapes.min.css">
+		<style>
+			html,body {
+				height: 100%;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			.gjs-editor-cont {
+				height: 90% !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="gjs">
+		 <h1>Hello World Component JHHH!</h1>
+		</div>
+		<script src="./public/libs/grapes/grapes.min.js"></script>
+		<script src="./public/libs/jquery/jquery-3.5.1.min.js"></script>
+		<script>
+			window.onload = function(){
+				
+				
+				const LandingPage = {
+				  html: '<div>adasdasdad</div>',
+				  css: null,
+				  components: null,
+				  style: null,
+				};
+				
+			  var editor = grapesjs.init({
+				   
+			        showOffsets: 1,
+			        noticeOnUnload: 0,
+			        container: '#gjs',
+					height: '100%',
+					fromElement: true,
+					components: LandingPage.components || LandingPage.html,
+					style: LandingPage.style || LandingPage.css,
+		
+			        storageManager: { autoload: false },
+				
+			        styleManager : {
+			          sectors: [{
+			              name: 'General',
+			              open: false,
+			              buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom']
+			            },{
+			              name: 'Flex',
+			              open: false,
+			              buildProps: ['flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order', 'flex-basis', 'flex-grow', 'flex-shrink', 'align-self']
+			            },{
+			              name: 'Dimension',
+			              open: false,
+			              buildProps: ['width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+			            },{
+			              name: 'Typography',
+			              open: false,
+			              buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-shadow'],
+			            },{
+			              name: 'Decorations',
+			              open: false,
+			              buildProps: ['border-radius-c', 'background-color', 'border-radius', 'border', 'box-shadow', 'background'],
+			            },{
+			              name: 'Extra',
+			              open: false,
+			              buildProps: ['transition', 'perspective', 'transform'],
+			            }
+			          ],
+			        },
+			      });
+				  
+				  
+				  // editor.load(res => console.log('Load callback'));
+				  
+				  // editor.store(res => console.log('Store callback'));
+				  
+				  const panelManager = editor.Panels;
+				   
+					
+				  var saveButton = panelManager.addButton('options',{
+						id: 'saveButton',
+						className: 'fa fa-save',
+						command: 'someCommand',
+						attributes: { title: 'Some title'},
+					
+				  });
+				  
+				  editor.Commands.add('someCommand', {
+				    run(editor, sender) {
+						let htmlDom =  document.getElementsByClassName('gjs-frame')[0].contentWindow.document
+					
+				      console.log(' editor.Commands 1 html ', saveButton)
+					   console.log(' editor.Commands 1 html ', sender)
+				
+					   let params = {
+						   path: 'test',
+						   fileName: 'index',
+						   html: editor.getHtml(),
+						   css: editor.getCss()
+					   }
+					   setTimeout(()=>{
+						editor.Commands.stop('saveButton');
+					   editor.Commands.isActive('saveButton');
+						   }, 1000 )
+					
+					
+					   savePage(params)
+					  
+				    }
+				  });
+				}
+
+				function  savePage(params){
+					 $.post('savePage',params,function(data){
+						 if (data.code === 200) {
+							alert('保存成功')	
+						 } else {
+							alert('保存失败')	
+						 }
+					 }, 'json')
+				}
+		</script>
+	</body>
+</html>

@@ -20,7 +20,7 @@ class Main extends React.Component {
         super(props);
         this.state={ 
             collapsed: false,
-            userName: cookie.load('userInfo').username
+            userName: cookie.load('userInfo')? cookie.load('userInfo').username :''
         }
 
         this.toggle = () => {

@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './login.css'
+
+
+// import login from './login.css'; 
+import('./login.css') 
 import { message,Form, Input, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import cookie from 'react-cookies'
 import httpRequest from '../../uitls/axios/axios'
+import { withRouter } from 'react-router-dom';
 
 const layout = {
     labelCol: { span: 8 },
@@ -13,8 +17,8 @@ const layout = {
 const tailLayout = {
     wrapperCol: { offset: 0, span: 24 },
 };
-
-
+ 
+// console.log('css', login.loginmain )
 
 
 class Login extends React.Component {
@@ -43,7 +47,7 @@ class Login extends React.Component {
        }
 
         return (
-            <div className="login-btn">
+            <div className='login-btn'>
              
                 <Button icon={<ArrowLeftOutlined />}  onClick={ onLoginOut } >
                      Login In
@@ -220,7 +224,7 @@ class Login extends React.Component {
         
 
         return ( 
-            <div className="login-main"> 
+        <div className="login-main" > 
                 
             { this.loginDom() }
                
@@ -229,5 +233,7 @@ class Login extends React.Component {
          );
     }
 }
-export default Login;
+// export default Login;
+export const LoginCom = Login
+
 

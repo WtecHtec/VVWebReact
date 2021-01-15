@@ -32,12 +32,12 @@ class Main extends React.Component {
     }
     componentDidMount() {
         let authorityVal = cookie.load('authorityVal')
-        if (!authorityVal) {
-            this.props.history.push('/login'); // 跳回登录页
-            return
-        } else {
-            this.props.history.push('/main');
-        }
+        // if (!authorityVal) {
+        //     this.props.history.push('/login'); // 跳回登录页
+        //     return
+        // } else {
+        //     this.props.history.push('/main');
+        // }
     }
 
     onMenuSelect(item, key, keyPath, selectedKeys, domEvent){

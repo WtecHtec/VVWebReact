@@ -18,7 +18,7 @@ const tailLayout = {
     wrapperCol: { offset: 0, span: 24 },
 };
  
-// console.log('css', login.loginmain )
+console.log('css', login )
 
 
 class Login extends React.Component {
@@ -233,7 +233,7 @@ class Login extends React.Component {
          );
     }
 }
-// export default Login;
-export const LoginCom = Login
+export default Login;
+// export const LoginCom = Login
 
 

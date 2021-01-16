@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import  RouterConfig from './router/index';
 import { HashRouter  } from 'react-router-dom';
 import { createHashHistory } from 'history'

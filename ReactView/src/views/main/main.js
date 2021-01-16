@@ -1,5 +1,5 @@
 import React from 'react';
-import './main.css'
+// import './main.css'
 import cookie from 'react-cookies'
 import {NavLink,withRouter} from 'react-router-dom';
 import { Layout, Menu } from 'antd';
@@ -32,12 +32,12 @@ class Main extends React.Component {
     }
     componentDidMount() {
         let authorityVal = cookie.load('authorityVal')
-        // if (!authorityVal) {
-        //     this.props.history.push('/login'); // 跳回登录页
-        //     return
-        // } else {
-        //     this.props.history.push('/main');
-        // }
+        if (!authorityVal) {
+            this.props.history.push('/login'); // 跳回登录页
+            return
+        } else {
+            this.props.history.push('/main');
+        }
     }
 
     onMenuSelect(item, key, keyPath, selectedKeys, domEvent){
@@ -112,4 +112,6 @@ class Main extends React.Component {
     }
 }
 
-export default withRouter(Main);
+// export default withRouter(Main);
+
+export const MainCom = withRouter(Main)

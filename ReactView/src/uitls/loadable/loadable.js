@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import Loadable from 'react-loadable';
+import Loading from '@/components/loadingcom/loadingcom.js';
 
-const Loading = function(props) {
-    console('Loading:', props)
-    return <div>Loading...</div>
-}
-const loadable = ({ loader, loading: Loading }) => {
-   console.log('loader', loader)
+const loadable = ( loader) => {
+  
    return  Loadable({
     loader,
-   Loading
+    loading() {
+      return Loading()
+  },
   });
 };
 export default loadable;

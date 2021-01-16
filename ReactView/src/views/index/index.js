@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+// import './index.css';
 import httpRequest from '../../uitls/axios/axios'
 import cookie from 'react-cookies'
 import { Timeline } from 'antd';
@@ -209,4 +209,5 @@ class Index extends React.Component{
   
 }
 
-export default Index;
+// export default Index;
+export const IndexCom = Index

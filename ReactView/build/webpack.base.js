@@ -4,14 +4,24 @@ let HtmlWebpackPlugin=require('html-webpack-plugin');	// 引入插件
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
+function resolve (dir) {
+    console.log('',path.join(__dirname, dir))
+    return path.join(__dirname, dir)
+}
 module.exports = {
+    resolve: {
+        alias:{
+            '@': resolve('../src')
+        }
+    },
     entry: './src/index.js',
      /*----以下是新增loader的代码----*/
+
     module:{
         rules:[
             {
                 test:/\.(jsx|js)$/,
-                exclude:/(node_modules)/,  //排除掉nod_modules,优化打包速度
+                // exclude:/(node_modules)/,  //排除掉nod_modules,优化打包速度
                 use:{
                     loader:'babel-loader'
                 }
@@ -22,12 +32,28 @@ module.exports = {
                     "url-loader"
                 ]
             },
+            // {
+            //     test: /\.less$/,
+            //     use: ExtractTextPlugin.extract({
+            //         use: [ 'less-loader'],
+            //     }),
+            //  },
             {
                 test: /\.css$/,
+                // use: ExtractTextPlugin.extract({
+                //     use: [ 'css-loader'],
+                // }),
                 use: ExtractTextPlugin.extract({
-                    use: 'css-loader',
+                    use: [  
+                        {
+                            loader: 'css-loader'
+            
+                        }
+                    ]
                 }),
+               
             },
+          
             {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
@@ -57,7 +83,7 @@ module.exports = {
 
     /*----以下是新增插件的代码----*/
     plugins: [
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin('[name][hash].css'),
         new HtmlWebpackPlugin({
             template: './public/index.html',
             filename: path.resolve(__dirname, '../dist/index.html'),

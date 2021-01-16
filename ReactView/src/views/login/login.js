@@ -1,14 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
 
 // import login from './login.css'; 
-import('./login.css') 
 import { message,Form, Input, Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import cookie from 'react-cookies'
 import httpRequest from '../../uitls/axios/axios'
-import { withRouter } from 'react-router-dom';
+
 
 const layout = {
     labelCol: { span: 8 },
@@ -18,7 +15,7 @@ const tailLayout = {
     wrapperCol: { offset: 0, span: 24 },
 };
  
-console.log('css', login )
+// console.log('css', login )
 
 
 class Login extends React.Component {

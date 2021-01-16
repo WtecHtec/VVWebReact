@@ -30,7 +30,7 @@ const  onCreateRecord = function(params){
 const  onSelectRecordByUserId = function(params){
     return new Promise(function(resolve, reject){
         
-        let  addSql = 'SELECT userid,loginip,loginplace,DATE_FORMAT(logintime,\'%Y-%m-%d %H:%i:%s\') AS logintime FROM loginrecord WHERE  userid=? ORDER BY  logintime  DESC';
+        let  addSql = 'SELECT userid,loginip,loginplace,DATE_FORMAT(logintime,\'%Y-%m-%d %H:%i:%s\') AS logintime FROM loginrecord WHERE  userid=? ORDER BY  logintime  DESC limit 10';
         let  addSqlParams = [params.userid];
         //增
         mysqlConnection.query(addSql,addSqlParams,function (err, result) {

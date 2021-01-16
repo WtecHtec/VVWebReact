@@ -1,21 +1,21 @@
 const mysqlConnection = require('../utils/mysql/mysqlconnect')
-// 新增用户
+//  统计页面浏览
 const  onGetPreViewDatas = function(params){
     return new Promise(function(resolve, reject){
-        let  sql = `SELECT pg.pagename, COUNT(1) , pv.previewtime  FROM viewpreview pv LEFT JOIN  pageview pg ON pg.pageid = pv.pageid  
-        where   date_sub(curdate(), interval 7 day) <= date(pv.previewtime) and  pg.createid = 'test1' GROUP BY pv.previewtime`;
-        let  sqlParams = [unid.v4(), params.username,params.email, md5(params.password), new Date()];
+        let  sql = `SELECT pg.pagename, COUNT(1) as pvvalue , DATE_FORMAT(pv.previewtime,'%Y-%m-%d') as previewtime   FROM viewpreview pv LEFT JOIN  pageview pg ON pg.pageid = pv.pageid  
+        where ( date(pv.previewtime) between date_sub(?, interval 7 day)  and ? ) and  pg.createid = ? GROUP BY pv.previewtime`;
+        let  sqlParams = [params.curDate,params.curDate, params.userid];
         //增
         mysqlConnection.query(sql,sqlParams,function (err, result) {
-                if(err){s
+                if(err){
                 console.log('[INSERT ERROR] - ',err.message);
                 reject(err)
-                return;
+                    return;
                 }        
         
-            console.log('--------------------------INSERT----------------------------');
-            //console.log('INSERT ID:',result.insertId);        
-            console.log('INSERT ID:',result);        
+            console.log('--------------------------SELECT----------------------------');
+              
+            console.log('onGetPreViewDatas :',result);        
             console.log('-----------------------------------------------------------------\n\n');  
             resolve(result)
         });

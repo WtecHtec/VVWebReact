@@ -2,16 +2,18 @@ import React from 'react';
 // import './index.css';
 import httpRequest from '../../uitls/axios/axios'
 import cookie from 'react-cookies'
-import { Timeline } from 'antd';
+import { Timeline, Empty  } from 'antd';
 import { ClockCircleOutlined, ToTopOutlined, RiseOutlined } from '@ant-design/icons';
 import { Line } from '@ant-design/charts';
+const dayjs = require('dayjs')
 
 class Index extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            loginRecordDatas: []
+            loginRecordDatas: [],
+            previewdatas:[]
         }
     }
     
@@ -29,8 +31,59 @@ class Index extends React.Component{
         
     }
     
+   
+    getPreviewdatas(){
+         let curDay =  dayjs(new Date().getTime())
+         let curDate =  curDay.format('YYYY-MM-DD')
+         httpRequest.get('previewdatas?userid=' + cookie.load('userInfo').userid + '&curDate=' + curDate ).then(res=>{
+          if (res.status === 200) {
+              // console.log('getPreviewdatas',  res.data)
+              let resultData = []
+              let objDataDate = {}
+              res.data.forEach(item=>{
+                objDataDate[item.previewtime] =  item.pagename
+              })
+              
+              let objDataName = {}
+              res.data.forEach(item=>{
+                objDataName[item.pagename] =  item.pvvalue
+              })
+              for (let i = 7; i > 0; i--) {
+                  let cubdate = curDay.subtract(24 * i , 'hour').format('YYYY-MM-DD')
+                  let keys = Object.keys(objDataName)
+                  // 其中有一个存在
+                  if (objDataDate[cubdate]) {
+                    
+                    for (let j = 0; j < keys.length;j++){
+                      resultData.push({
+                        pagename: keys[j],
+                        previewtime: cubdate,
+                        pvvalue: objDataDate[cubdate] ===  keys[j] ? objDataName[keys[j]] : 0
+                      })
+                    }
+                  } else {
+                     // 一个都不存在
+                     for (let n = 0; n < keys.length;n++){
+                          resultData.push({
+                            pagename: keys[n],
+                            previewtime: cubdate,
+                            pvvalue: 0
+                          })
+                     }
+                  }
+
+              }
+              // console.log('resultData:', objDataDate, objDataName ,resultData)
+              this.setState({
+                previewdatas: resultData
+              })
+          }
+         }).catch((err)=>{console.log(err)})
+    }
+    
     componentDidMount(){
         this.getLoginRecordList()
+        this.getPreviewdatas()
     }
     
     timeLineItemsDom(){
@@ -53,140 +106,20 @@ class Index extends React.Component{
     }
 
     render(){
-        var data = [
-            {
-              month: 'Jan',
-              key: 'series1',
-              value: 125,
-            },
-            {
-              month: 'Jan',
-              key: 'series2',
-              value: 51,
-            },
-            {
-              month: 'Feb',
-              key: 'series1',
-              value: 132,
-            },
-            {
-              month: 'Feb',
-              key: 'series2',
-              value: 91,
-            },
-            {
-              month: 'Mar',
-              key: 'series1',
-              value: 141,
-            },
-            {
-              month: 'Mar',
-              key: 'series2',
-              value: 34,
-            },
-            {
-              month: 'Apr',
-              key: 'series1',
-              value: 158,
-            },
-            {
-              month: 'Apr',
-              key: 'series2',
-              value: 47,
-            },
-            {
-              month: 'May',
-              key: 'series1',
-              value: 133,
-            },
-            {
-              month: 'May',
-              key: 'series2',
-              value: 63,
-            },
-            {
-              month: 'June',
-              key: 'series1',
-              value: 143,
-            },
-            {
-              month: 'June',
-              key: 'series2',
-              value: 58,
-            },
-            {
-              month: 'July',
-              key: 'series1',
-              value: 176,
-            },
-            {
-              month: 'July',
-              key: 'series2',
-              value: 56,
-            },
-            {
-              month: 'Aug',
-              key: 'series1',
-              value: 194,
-            },
-            {
-              month: 'Aug',
-              key: 'series2',
-              value: 77,
-            },
-            {
-              month: 'Sep',
-              key: 'series1',
-              value: 115,
-            },
-            {
-              month: 'Sep',
-              key: 'series2',
-              value: 99,
-            },
-            {
-              month: 'Oct',
-              key: 'series1',
-              value: 134,
-            },
-            {
-              month: 'Oct',
-              key: 'series2',
-              value: 106,
-            },
-            {
-              month: 'Nov',
-              key: 'series1',
-              value: 110,
-            },
-            {
-              month: 'Nov',
-              key: 'series2',
-              value: 88,
-            },
-            {
-              month: 'Dec',
-              key: 'series1',
-              value: 91,
-            },
-            {
-              month: 'Dec',
-              key: 'series2',
-              value: 56,
-            },
-          ];
+          var data =  this.state.previewdatas
           const config = {
             data,
             height: 400,
-            xField: 'month',
-            yField: 'value',
-            seriesField: 'key',
+            xField: 'previewtime',
+            yField: 'pvvalue',
+            seriesField: 'pagename',
             point: {
               size: 5,
               shape: 'diamond',
             },
           };
-      
+
+          var pvDom = data.length === 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> :  <Line {...config} />
 
         return (
             <div className="main" style={{paddingTop: '10px'}}>
@@ -194,7 +127,7 @@ class Index extends React.Component{
                 <div className="content-shadow">
                     <div className="header-text " > <RiseOutlined  style={{ 'color': '#1890ff' }} />  页面访问次数</div>
                     <div style={{ 'padding': '24px' }}>
-                        <Line {...config} />
+                       { pvDom } 
                     </div>
                 </div>
                 <div className="content-shadow">

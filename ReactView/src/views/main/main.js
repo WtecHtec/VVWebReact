@@ -32,7 +32,9 @@ class Main extends React.Component {
     }
     componentDidMount() {
         let authorityVal = cookie.load('authorityVal')
+        console.log('authorityVal',authorityVal)
         if (!authorityVal) {
+           
             this.props.history.push('/login'); // 跳回登录页
             return
         } else {
@@ -42,6 +44,11 @@ class Main extends React.Component {
 
     onMenuSelect(item, key, keyPath, selectedKeys, domEvent){
             console.log(item, key, keyPath, selectedKeys, domEvent)
+            if ( !item.key ||  item.key === 'index') {
+              this.props.history.push('/main');
+              return
+            }
+            this.props.history.push('/main/' + item.key );
     }
 
   
@@ -70,7 +77,7 @@ class Main extends React.Component {
                   <Menu.Item key="index" icon={<MacCommandOutlined />}>
                      首页
                   </Menu.Item>
-                  <Menu.Item key="pageMage" icon={<VideoCameraOutlined />}>
+                  <Menu.Item key="vvwebpages" icon={<VideoCameraOutlined />}>
                      页面管理
                   </Menu.Item>
                   {/* <Menu.Item key="3" icon={<UploadOutlined />}>

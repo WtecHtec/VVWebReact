@@ -10,13 +10,13 @@ import {Route,Switch} from 'react-router-dom';
 
 
 /**  使用 react.lazy 懒加载 start  */
-import Loading from '../components/loadingcom/loadingcom';
+// import Loading from '../components/loadingcom/loadingcom';
 
 // const logincom = lazy(() => import('../views/login/logincom') );
 
-const MainCom = lazy(() => import('../views/main/maincom') );
+// const MainCom = lazy(() => import('../views/main/maincom') );
 
-const indexcom = lazy(() => import('../views/index/indexcom') );
+// const indexcom = lazy(() => import('../views/index/indexcom') );
 
 /**  使用 react.lazy 懒加载 end  */
 
@@ -24,6 +24,13 @@ const indexcom = lazy(() => import('../views/index/indexcom') );
 import Loadable from '../uitls/loadable/loadable';
 
 const logincom = Loadable(() => import('../views/login/login') );
+const MainCom = Loadable(() => import('../views/main/main') );
+const indexcom = Loadable(() => import('../views/index/index') );
+const vvwebpages = Loadable(() => import('../views/vvwebpages/vvwebpages') );
+
+function Loading () {
+    return <div> 加载。。。</div>
+}
 
 /**  使用 react-loadable  懒加载 end  */
 
@@ -42,8 +49,7 @@ class RouterConfig extends React.Component{
                         <Route path="/main" render={() =>
                             <MainCom>
                                 <Route exact path="/main" component={indexcom} />
-                                <Route path="/main/Page2" component={logincom} /> 
-            
+                                <Route  path="/main/vvwebpages" component={vvwebpages} /> 
                             </MainCom>
                         }/>
                     <Route path='/login'  exact component={logincom}/>

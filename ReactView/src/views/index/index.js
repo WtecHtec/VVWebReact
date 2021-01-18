@@ -5,6 +5,7 @@ import cookie from 'react-cookies'
 import { Timeline, Empty,Button  } from 'antd';
 import { ClockCircleOutlined, ToTopOutlined, RiseOutlined } from '@ant-design/icons';
 import { Line } from '@ant-design/charts';
+import emitter from "@/uitls/react-events" 
 const dayjs = require('dayjs')
 
 class Index extends React.Component{
@@ -22,7 +23,7 @@ class Index extends React.Component{
         // console.log( cookie.load('userInfo') )
         let userid =  cookie.load('userInfo') ? cookie.load('userInfo').userid :''
         httpRequest.get('loginrecordlist?userid=' +  userid ).then((res)=>{
-            console.log(res)
+            // console.log(res)
             if (res.status === 200) {
                 this.setState({
                     loginRecordDatas: res.data
@@ -120,7 +121,7 @@ class Index extends React.Component{
             },
           };
 
-          var pvDom = data.length === 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} > <Button type="primary">创建新页面</Button> </Empty> :  <Line {...config} />
+          var pvDom = data.length === 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} > <Button onClick={()=> emitter.emit("changemenu","vvwebpages")  } type="primary">创建新页面</Button> </Empty> :  <Line {...config} />
 
         return (
             <div className="main" style={{paddingTop: '10px'}}>

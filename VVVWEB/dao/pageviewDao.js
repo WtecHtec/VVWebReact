@@ -57,8 +57,32 @@ const delPageView = function(params){
 }
 
 
+const updateName = function(params){
+    console.log('selectPageView',  params)
+    return new Promise(function(resolve, reject){
+        let  addSql = 'UPDATE pageview SET pagename = ?  WHERE pageid = ?';
+        let  addSqlParams = [ params.pagename,  params.pageid ];
+        mysqlConnection.query(addSql,addSqlParams,function (err, result) {
+            if(err){
+                console.log('[INSERT ERROR] - ',err.message);
+                reject(err)
+                return;
+            }        
+    
+        console.log('--------------------------INSERT----------------------------');
+        //console.log('INSERT ID:',result.insertId);        
+        console.log('INSERT ID:',result);        
+        console.log('-----------------------------------------------------------------\n\n');  
+        resolve(result)
+    });
+
+    })
+}
+
+
 
 module.exports ={
     selectPageView,
-    delPageView
+    delPageView,
+    updateName
 }

@@ -3,13 +3,15 @@ import React from 'react';
 import cookie from 'react-cookies'
 import {NavLink,withRouter} from 'react-router-dom';
 import { Layout, Menu } from 'antd';
+
+import emitter from "@/uitls/react-events" 
 import {
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    MacCommandOutlined,
-    VideoCameraOutlined,
-    SmileOutlined,
-  } from '@ant-design/icons';
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  MacCommandOutlined,
+  VideoCameraOutlined,
+  SmileOutlined,
+} from '@ant-design/icons';
   
 const { Header, Sider, Content } = Layout;
 
@@ -19,6 +21,8 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state={ 
+            eventEmitter:'',
+            menuSelectKey: 'index',
             collapsed: false,
             userName: cookie.load('userInfo')? cookie.load('userInfo').username :''
         }
@@ -40,10 +44,22 @@ class Main extends React.Component {
         } else {
             this.props.history.push('/main');
         }
+
+        this.state.eventEmitter = emitter.addListener("changemenu",(menu)=>{
+            console.log('changemenu', menu)
+            this.setState({
+              menuSelectKey:  menu
+            })
+            this.props.history.push('/main/' + menu );
+        });
+    }
+    componentWillUnmount(){
+       if (this.state.eventEmitter) emitter.removeListener(this.state.eventEmitter);
     }
 
     onMenuSelect(item, key, keyPath, selectedKeys, domEvent){
-            console.log(item, key, keyPath, selectedKeys, domEvent)
+            // console.log(item, key, keyPath, selectedKeys, domEvent)
+            this.state.menuSelectKey =  item.key
             if ( !item.key ||  item.key === 'index') {
               this.props.history.push('/main');
               return
@@ -71,7 +87,7 @@ class Main extends React.Component {
             <Layout>
               <Sider trigger={null} collapsible collapsed={this.state.collapsed} id="components-layout-demo-custom-trigger">
                 <div className="logo" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['index']} onSelect={ (val)=>{
+                <Menu theme="dark" mode="inline" selectedKeys={[ this.state.menuSelectKey ]} onSelect={ (val)=>{
                             this.onMenuSelect(val)
                 }  }>
                   <Menu.Item key="index" icon={<MacCommandOutlined />}>

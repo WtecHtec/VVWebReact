@@ -47,9 +47,10 @@ class  Vvwebpages extends React.Component {
                            return (
                                <div>
                                     <Popconfirm title="是否删除？" okText="确定" cancelText="取消" onConfirm={()=> this.onDelData(self, record) }>
-                                        <a href="#">删除</a>
+                                        <a>删除</a>
                                     </Popconfirm>
-                                    <a href="#"> 修改 </a>
+                                    <a > 修改 </a>
+                                    <a onClick={ ()=> this.previewPage(record.pageid) }> 预览 </a>
                                </div>
                            )
                     }
@@ -64,6 +65,13 @@ class  Vvwebpages extends React.Component {
     componentDidMount(){ 
         this.getPagevViews() 
     }
+    onCreatePage() {
+        this.props.history.push('/main/grapesview' ); // 带参数
+    }
+
+    previewPage(pageid){
+        window.open(httpRequest.defaults.baseURL +'ViewPage?view=' +pageid )
+    }
     //打开修改窗口
     openEditNameModal(record){
         this.setState(
@@ -74,6 +82,7 @@ class  Vvwebpages extends React.Component {
             }
         )
     }
+    
     handleOk(){
         console.log('修改', this.state.editname )
         if ( !this.state.editname ) {
@@ -135,7 +144,7 @@ class  Vvwebpages extends React.Component {
                     <Row>
                         <Col span={4} >  <Input placeholder="名称"  onChange={ (e)=> this.inputPageName(e,'pagename') } />   </Col>
                         <Button style={{ marginLeft: '12px'}} onClick={()=>   this.getPagevViews() }>查询</Button>
-                        <Button style={{ marginLeft: '12px'}}  type="primary" onClick={()=>  console.log('创建') }>创建</Button>
+                        <Button style={{ marginLeft: '12px'}}  type="primary" onClick={()=>  this.onCreatePage() }>创建</Button>
                     </Row>
                 </div>
                 <div style={{ marginTop: '12px' }}>

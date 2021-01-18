@@ -27,6 +27,7 @@ const logincom = Loadable(() => import('../views/login/login') );
 const MainCom = Loadable(() => import('../views/main/main') );
 const indexcom = Loadable(() => import('../views/index/index') );
 const vvwebpages = Loadable(() => import('../views/vvwebpages/vvwebpages') );
+const grapesview = Loadable(() => import('../views/grapesview/grapesview') );
 
 // function Loading () {
 //     return <div> 加载。。。</div>
@@ -50,6 +51,7 @@ class RouterConfig extends React.Component{
                             <MainCom>
                                 <Route exact path="/main" component={indexcom} />
                                 <Route  path="/main/vvwebpages" component={vvwebpages} /> 
+                                <Route  path="/main/grapesview" component={grapesview} /> 
                             </MainCom>
                         }/>
                     <Route path='/login'  exact component={logincom}/>

@@ -32,6 +32,12 @@ module.exports = {
                     "url-loader"
                 ]
             },
+            {
+                test:/\.(svg|ttf|woff|eot)$/,
+                use:[
+                    "file-loader"
+                ]
+            },
             // {
             //     test: /\.less$/,
             //     use: ExtractTextPlugin.extract({

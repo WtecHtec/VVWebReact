@@ -28,7 +28,7 @@ app.use(expressJwt({
     secret: 'wtechtec',  // 签名的密钥 或 PublicKey
     algorithms: ['HS256']
   }).unless({
-    path: ['/signIn', '/signup']  // 指定路径不经过 Token 解析
+    path: ['/signIn', '/signup','/ViewPage']  // 指定路径不经过 Token 解析
 }))
 
 app.use(bodyParser.urlencoded({ extended: false }))

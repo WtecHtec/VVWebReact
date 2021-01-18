@@ -7,7 +7,7 @@ module.exports = function(app){
         console.log('savePage',req.body)
         let postBody =  req.body
      
-        pageFileDao.saveFile(postBody.path, postBody.fileName, postBody.html, postBody.css).then(function(){
+        pageFileDao.saveFile(postBody).then(function(){
             // console.log('resolve')
            return  res.json({
                 code: 200
@@ -27,10 +27,12 @@ module.exports = function(app){
         let urlObj = url.parse(req.url)
        
         let getBody = querystring.parse(urlObj.query)
-        pageFileDao.viewPage(getBody.path, getBody.fileName).then( function(result){
+        // console.log(getBody)
+        pageFileDao.viewPage(getBody.view).then( function(result){
 
             // console.log(result)
             res.render('viewPage.html', {
+                pathname:'View',
                 html :  result[0],
                 htmlDom: {
                     css :  result[1],

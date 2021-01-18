@@ -1,4 +1,6 @@
 node_modules
+ReactView/dist
+VVVWEB/components
 /dist
 .idea
 

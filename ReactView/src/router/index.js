@@ -10,7 +10,7 @@ import {Route,Switch} from 'react-router-dom';
 
 
 /**  使用 react.lazy 懒加载 start  */
-// import Loading from '../components/loadingcom/loadingcom';
+import Loading from '../components/loadingcom/loadingcom';
 
 // const logincom = lazy(() => import('../views/login/logincom') );
 
@@ -28,9 +28,9 @@ const MainCom = Loadable(() => import('../views/main/main') );
 const indexcom = Loadable(() => import('../views/index/index') );
 const vvwebpages = Loadable(() => import('../views/vvwebpages/vvwebpages') );
 
-function Loading () {
-    return <div> 加载。。。</div>
-}
+// function Loading () {
+//     return <div> 加载。。。</div>
+// }
 
 /**  使用 react-loadable  懒加载 end  */
 

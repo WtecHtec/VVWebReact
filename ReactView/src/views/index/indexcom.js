@@ -1,0 +1,1 @@
+export { IndexCom as default } from "./index";

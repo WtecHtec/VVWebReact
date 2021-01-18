@@ -143,5 +143,5 @@ class Index extends React.Component{
   
 }
 
-// export default Index;
-export const IndexCom = Index
+export default Index;
+// export const IndexCom = Index

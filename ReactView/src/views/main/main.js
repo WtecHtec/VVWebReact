@@ -119,6 +119,6 @@ class Main extends React.Component {
     }
 }
 
-// export default withRouter(Main);
+export default withRouter(Main);
 
-export const MainCom = withRouter(Main)
+// export const MainCom = withRouter(Main)

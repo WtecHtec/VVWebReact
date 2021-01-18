@@ -2,8 +2,8 @@ const mysqlConnection = require('../utils/mysql/mysqlconnect')
 //  统计页面浏览
 const  onGetPreViewDatas = function(params){
     return new Promise(function(resolve, reject){
-        let  sql = `SELECT pg.pagename, COUNT(1) as pvvalue , DATE_FORMAT(pv.previewtime,'%Y-%m-%d') as previewtime   FROM viewpreview pv LEFT JOIN  pageview pg ON pg.pageid = pv.pageid  
-        where ( date(pv.previewtime) between date_sub(?, interval 7 day)  and ? ) AND pg.del = 0  and  pg.createid = ? GROUP BY pv.previewtime`;
+        let  sql = `SELECT pg.pagename, COUNT(*) as pvvalue , DATE_FORMAT(pv.previewtime,'%Y-%m-%d') as previewtime   FROM viewpreview pv LEFT JOIN  pageview pg ON pg.pageid = pv.pageid  
+        where ( date(pv.previewtime) between date_sub(?, interval 7 day)  and ? ) AND pg.del = 0  and  pg.createid = ? GROUP BY DATE_FORMAT(pv.previewtime,'%Y-%m-%d')`;
         let  sqlParams = [params.curDate,params.curDate, params.userid];
         //增
         mysqlConnection.query(sql,sqlParams,function (err, result) {

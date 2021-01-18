@@ -23,6 +23,31 @@ const  onGetPreViewDatas = function(params){
 
 }
 
+
+const onCreateViewPer= function(params){
+    return new Promise(function(resolve, reject){
+        
+        let  addSql = 'INSERT INTO viewpreview(pageid,previewip,previewplace,previewtime) VALUES(?,?,?,?)';
+        let  addSqlParams = [ params.pageid,params.previewip, params.previewplace, new Date()];
+        //增
+        mysqlConnection.query(addSql,addSqlParams,function (err, result) {
+                if(err){
+                console.log('[INSERT ERROR] - ',err.message);
+                reject(err)
+                return;
+                }        
+        
+            console.log('--------------------------INSERT----------------------------');
+            //console.log('INSERT ID:',result.insertId);        
+            console.log('INSERT ID:',result);        
+            console.log('-----------------------------------------------------------------\n\n');  
+            resolve(result)
+        });
+ 
+
+    })
+}
 module.exports = {
-    onGetPreViewDatas
+    onGetPreViewDatas,
+    onCreateViewPer
 }

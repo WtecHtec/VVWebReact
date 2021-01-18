@@ -36,7 +36,7 @@ class Main extends React.Component {
     }
     componentDidMount() {
         let authorityVal = cookie.load('authorityVal')
-        console.log('authorityVal',authorityVal)
+        // console.log('authorityVal',authorityVal)
         if (!authorityVal) {
            
             this.props.history.push('/login'); // 跳回登录页
@@ -54,7 +54,9 @@ class Main extends React.Component {
         });
     }
     componentWillUnmount(){
-       if (this.state.eventEmitter) emitter.removeListener(this.state.eventEmitter);
+       if (this.state.eventEmitter) {
+        emitter.removeListener(this.state.eventEmitter);
+       }
     }
 
     onMenuSelect(item, key, keyPath, selectedKeys, domEvent){

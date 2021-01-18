@@ -50,7 +50,7 @@ class Index extends React.Component{
               res.data.forEach(item=>{
                 objDataName[item.pagename] =  item.pvvalue
               })
-              for (let i = 7; i > 0; i--) {
+              for (let i = 6; i >= 0; i--) {
                   let cubdate = curDay.subtract(24 * i , 'hour').format('YYYY-MM-DD')
                   let keys = Object.keys(objDataName)
                   // 其中有一个存在

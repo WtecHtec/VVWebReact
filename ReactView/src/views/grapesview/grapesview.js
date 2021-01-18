@@ -12,6 +12,7 @@ class Grapesview extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            editData: null,
             editname:'',
             editor: null,
             isModalVisible: false
@@ -19,18 +20,25 @@ class Grapesview extends React.Component{
     }
    
     componentDidMount(){
+        if (this.props.location.state) {
+            this.state.editData =  this.props.location.state.editData
+        }
+      
+        console.log('componentDidMount',  this.state.editData )
         this.initEditor()
     }
 
     // 初始化编辑器
     initEditor(){
-        console.log(StyleManager)
+        // console.log(StyleManager)
         this.state.editor = grapesjs.init({
             showOffsets: 1,
             noticeOnUnload: 0,
             container: '#gjs',
             height: '100%',
-            fromElement: true,
+            fromElement: this.state.editData?false : true,
+            components:  this.state.editData?  this.state.editData.html : '',
+            style:  this.state.editData?  this.state.editData.css : '',
             storageManager: { autoload: false },
             styleManager : StyleManager
         })
@@ -53,10 +61,10 @@ class Grapesview extends React.Component{
       
        this.state.editor.Commands.add('saveCommand', {
             run(editor, sender) {
-                let htmlDom =  document.getElementsByClassName('gjs-frame')[0].contentWindow.document
+                // let htmlDom =  document.getElementsByClassName('gjs-frame')[0].contentWindow.document
             
-                console.log(' editor.Commands 1 html ', editor.getHtml() )
-                console.log(' editor.Commands 1 html ', )
+                // console.log(' editor.Commands 1 html ', editor.getHtml() )
+                // console.log(' editor.Commands 1 html ', )
                 let htmlData = editor.getHtml()
                 if ( !htmlData ) {
                     Modal.warning({
@@ -107,9 +115,17 @@ class Grapesview extends React.Component{
            createid:  cookie.load('userInfo').userid,
            html: this.state.editor.getHtml(),
            css:  this.state.editor.getCss()
-       }
+       
+        }
+        let url = '/savePage'
+        // 修改
+        if ( this.state.editData) {
 
-       httpRequest.post('/savePage',params).then(res=>{
+            
+        }
+
+
+       httpRequest.post(url,params).then(res=>{
            if (res.status === 200 ) {
             this.props.history.goBack()
            } else {
@@ -143,7 +159,7 @@ class Grapesview extends React.Component{
             <div style={{height: 'calc(100% - 50px)'}}> 
                 <div className="header-text " > <SwapLeftOutlined  onClick={()=> this.props.history.goBack() }  style={{ 'color': '#1890ff' }}   /> 创建页面 </div>
                 <div id="gjs">
-                    <h1>Hello World Component JHHH!</h1>
+                    <h1>Hello World Component VVVWEBVIEW!</h1>
                 </div>
 
                 <Modal title="保存" visible={ this.state.isModalVisible } getContainer={ ()=>  document.getElementById('gjs')  }  onOk={()=> this.handleOk() } onCancel={()=> this.setState({isModalVisible: false }) }>

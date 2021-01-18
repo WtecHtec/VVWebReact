@@ -27,9 +27,33 @@ const  onCreatePage = function(params){
     })
 }
 
+// 查询单个
+const onSelectById = function(params) {
+    return new Promise(function(resolve, reject){
+        let  addSql = 'SELECT  pagename, pageid  FROM pageview WHERE del = 0 AND pageid = ?';
+     
+        let  addSqlParams = [ params ]
+        //
+        mysqlConnection.query(addSql,addSqlParams,function (err, result) {
+                if(err){
+                    console.log('[INSERT ERROR] - ',err.message);
+                    reject(err)
+                    return;
+                }        
+        
+            console.log('--------------------------INSERT----------------------------');
+            //console.log('INSERT ID:',result.insertId);        
+            console.log('INSERT ID:',result);        
+            console.log('-----------------------------------------------------------------\n\n');  
+            resolve(result)
+        });
+
+    })
+}
+
 // 查询所有
 const selectPageView = function(params){
-    console.log('selectPageView',  params)
+    // console.log('selectPageView',  params)
     return new Promise(function(resolve, reject){
         
         console.log(params)
@@ -112,5 +136,6 @@ module.exports ={
     selectPageView,
     delPageView,
     updateName,
-    onCreatePage
+    onCreatePage,
+    onSelectById
 }

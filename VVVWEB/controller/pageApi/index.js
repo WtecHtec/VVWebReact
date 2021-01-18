@@ -1,4 +1,7 @@
 const  pageFileDao = require('../../dao/pageFileDao')
+const viewpreviewDao = require('../../dao/viewpreviewDao')
+const  pageviewDao = require('../../dao/pageviewDao')
+
 const querystring = require('querystring');
 const url = require('url')
 module.exports = function(app){
@@ -20,29 +23,70 @@ module.exports = function(app){
         })
     })
 
+    // 修改
+    app.get('/editviewpage', function(req, res) {
+        getPageData(req, res, 'edit')
+    })
 
     
-    // 查看
-    app.get('/ViewPage', function(req, res) {
+    function getPageData(req, res, type){
         let urlObj = url.parse(req.url)
        
         let getBody = querystring.parse(urlObj.query)
-        // console.log(getBody)
-        pageFileDao.viewPage(getBody.view).then( function(result){
 
-            // console.log(result)
-            res.render('viewPage.html', {
-                pathname:'View',
-                html :  result[0],
-                htmlDom: {
-                    css :  result[1],
-                }
-            })
-        }).catch(function(err){
-            res.json({
-                code: 201
-            })
+        pageviewDao.onSelectById(getBody.view).then((onlyItem)=>{
+            //  console.log('pageviewDao:', onlyItem)
+            if (onlyItem && onlyItem.length > 0) {
+
+                pageFileDao.viewPage(getBody.view).then( function(result){
+                       
+                    // 修改
+                    if (type === 'edit') {
+                        res.status(200).json({
+                            pageid: onlyItem[0].pageid,
+                            pathname: onlyItem[0].pagename,
+                            html :  result[0],
+                            css :  result[1]
+                        })
+                        return
+                    }
+                    
+                    //  预览
+                    res.render('viewPage.html', {
+                        pathname: onlyItem[0].pagename,
+                        html :  result[0],
+                        htmlDom: {
+                            css :  result[1],
+                        }
+                    })
+                    let vparams = {
+                        pageid: getBody.view,
+                        previewip:'',
+                        previewplace:''
+                    }
+                    viewpreviewDao.onCreateViewPer( vparams)
+
+
+
+                }).catch(function(err){
+                    res.json({
+                        code: 201
+                    })
+                })
+
+            } else {
+                res.json({
+                    code: 201
+                })
+            }
+            
         })
+        
+    }
+
+    // 查看
+    app.get('/ViewPage', function(req, res) {
+        getPageData(req, res, 'preview')
     })
 
 }

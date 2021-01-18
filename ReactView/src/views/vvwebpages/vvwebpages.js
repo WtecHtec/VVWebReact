@@ -22,7 +22,7 @@ class  Vvwebpages extends React.Component {
                         return (
                             <div >
                                 <EditOutlined style={{ color:'#1890ff',cursor:'pointer'}}  onClick={ ()=>  this.openEditNameModal(record) } />
-                                <span> { record.pagename } </span>  
+                                <span> {  record.pagename } </span>  
                             </div>
                         )
                     }
@@ -35,6 +35,7 @@ class  Vvwebpages extends React.Component {
                     dataIndex: 'createtime',
                     align: 'center',
                     sorter: (a, b) => { 
+                            if ( !a ) return 
                             return new Date(a.createtime).getTime() -   new Date(b.createtime).getTime()
                     } 
                
@@ -43,14 +44,14 @@ class  Vvwebpages extends React.Component {
                     title: '操作',
                     key: "action",
                     align: 'center',
-                    render: (self, record) => {
+                    render: ( record) => {
                            return (
                                <div>
-                                    <Popconfirm title="是否删除？" okText="确定" cancelText="取消" onConfirm={()=> this.onDelData(self, record) }>
+                                    <Popconfirm title="是否删除？" okText="确定" cancelText="取消" onConfirm={()=> this.onDelData( record) }>
                                         <a>删除</a>
                                     </Popconfirm>
-                                    <a > 修改 </a>
-                                    <a onClick={ ()=> this.previewPage(record.pageid) }> 预览 </a>
+                                    <a onClick={()=>  this.onCreatePage(record, 'edit')}> 修改 </a>
+                                    <a onClick={ ()=> this.previewPage( record.pageid ) }> 预览 </a>
                                </div>
                            )
                     }
@@ -65,14 +66,33 @@ class  Vvwebpages extends React.Component {
     componentDidMount(){ 
         this.getPagevViews() 
     }
-    onCreatePage() {
-        this.props.history.push('/main/grapesview' ); // 带参数
+
+  
+  
+
+    onCreatePage(record,type) {
+        if (type) {
+            // this.props.history.push({ pathname: "/PutForwardSubmit", state: { vcode } });
+            this.getEditPageData(record)
+            return
+        }
+        this.props.history.push('/main/grapesview' ); 
+    }
+    
+    getEditPageData(record){
+        httpRequest.get('/editviewpage?view=' +record.pageid).then(res=>{
+            if (res.status === 200) {
+                // console.log('getEditPageData', res)
+                this.props.history.push({ pathname: "/main/grapesview", state: { editData: res.data } })
+            }
+        })
+
     }
 
     previewPage(pageid){
         window.open(httpRequest.defaults.baseURL +'ViewPage?view=' +pageid )
     }
-    //打开修改窗口
+    //打开修改名称窗口
     openEditNameModal(record){
         this.setState(
             {
@@ -107,7 +127,7 @@ class  Vvwebpages extends React.Component {
 
     }
     // 删除
-    onDelData(self,record) {
+    onDelData(record) {
         // console.log('onDelData this:',self, record)
         let url = '/delpageview?pageid=' + record.pageid
         httpRequest.delete(url).then(res=>{
@@ -148,7 +168,7 @@ class  Vvwebpages extends React.Component {
                     </Row>
                 </div>
                 <div style={{ marginTop: '12px' }}>
-                    <Table columns={ this.state.tableColumns}  dataSource={ this.state.tableData  }  scroll={{ y: 600 }} rowKey={record => record.pageid } />
+                    <Table columns={ this.state.tableColumns}  dataSource={ this.state.tableData  }  scroll={{ y: 600 }} rowKey={record =>  record.pageid  } />
                 </div> 
 
                 <Modal title="修改名称" visible={ this.state.isModalVisible } onOk={()=> this.handleOk() } onCancel={()=> this.setState({isModalVisible: false }) }>

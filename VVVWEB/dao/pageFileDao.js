@@ -16,7 +16,7 @@ const saveFile = function(postBody ) {
             let htmlPro = fileUtil.writeFile(filePath + '\\' + fileName + '.html', postBody.html)
             let cssPro = fileUtil.writeFile(filePath + '\\' + fileName + '.css', postBody.css)
             Promise.all([htmlPro, cssPro]).then(function(){
-                // console.log('保存文件成功')
+              
                 // 记录数据库
                 pageviewDao.onCreatePage(postBody)
                 resovle()
@@ -30,6 +30,42 @@ const saveFile = function(postBody ) {
             // console.log('保存文件失败a')
             reject()
         })
+    })
+    
+}
+
+// 修改数据
+const updateFile = function(postBody ) {
+    let fileName = 'index'
+    let filePath = rootDir + '/' + postBody.pageid
+    return new Promise(function(resovle, reject){
+
+
+        //  修改
+        pageviewDao.updateName(postBody).then((updateitem)=>{
+
+            fileUtil.createDir(filePath).then(function(res){
+                let htmlPro = fileUtil.writeFile(filePath + '\\' + fileName + '.html', postBody.html)
+                let cssPro = fileUtil.writeFile(filePath + '\\' + fileName + '.css', postBody.css)
+                Promise.all([htmlPro, cssPro]).then(function(){
+                  
+                    
+                    resovle()
+                   
+                }).catch(function(){
+                    // console.log('保存文件失败')
+                    reject()
+                })
+    
+            }).catch(function(err){
+                // console.log('保存文件失败a')
+                reject()
+            })
+
+
+        }) 
+
+        
     })
     
 }
@@ -60,5 +96,6 @@ const viewPage  = function(path){
 
 module.exports = {
     saveFile,
-    viewPage
+    viewPage,
+    updateFile
 }

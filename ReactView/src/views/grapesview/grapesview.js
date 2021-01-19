@@ -22,9 +22,10 @@ class Grapesview extends React.Component{
     componentDidMount(){
         if (this.props.location.state) {
             this.state.editData =  this.props.location.state.editData
+            this.state.editname = this.state.editData.pathname
         }
       
-        console.log('componentDidMount',  this.state.editData )
+        // console.log('componentDidMount',  this.state.editData )
         this.initEditor()
     }
 
@@ -120,7 +121,8 @@ class Grapesview extends React.Component{
         let url = '/savePage'
         // 修改
         if ( this.state.editData) {
-
+            params['pageid'] = this.state.editData.pageid
+            url = '/editviewpage'
             
         }
 

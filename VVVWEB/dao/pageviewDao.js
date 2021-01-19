@@ -57,7 +57,7 @@ const selectPageView = function(params){
     return new Promise(function(resolve, reject){
         
         console.log(params)
-        let  addSql = 'SELECT pageid, pagename, DATE_FORMAT(createtime,\'%Y-%m-%d %H:%i:%s\') as createtime  FROM pageview WHERE del = 0 AND createid = ?';
+        let  addSql = 'SELECT pageid, pagename, DATE_FORMAT(createtime,\'%Y-%m-%d %H:%i:%s\') as createtime,DATE_FORMAT(updatetime,\'%Y-%m-%d %H:%i:%s\') as updatetime  FROM pageview WHERE del = 0 AND createid = ?';
      
         let  addSqlParams = [ params.createid ];
         if ( params.pagename )   {
@@ -111,8 +111,8 @@ const delPageView = function(params){
 const updateName = function(params){
     console.log('selectPageView',  params)
     return new Promise(function(resolve, reject){
-        let  addSql = 'UPDATE pageview SET pagename = ?  WHERE pageid = ?';
-        let  addSqlParams = [ params.pagename,  params.pageid ];
+        let  addSql = 'UPDATE pageview SET pagename = ? , updatetime = ?  WHERE pageid = ?';
+        let  addSqlParams = [ params.pagename, new Date(),  params.pageid ];
         mysqlConnection.query(addSql,addSqlParams,function (err, result) {
             if(err){
                 console.log('[INSERT ERROR] - ',err.message);

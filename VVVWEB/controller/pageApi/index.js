@@ -7,7 +7,7 @@ const url = require('url')
 module.exports = function(app){
      // 保存
      app.post('/savePage', function(req, res) {
-        console.log('savePage',req.body)
+        // console.log('savePage',req.body)
         let postBody =  req.body
      
         pageFileDao.saveFile(postBody).then(function(){
@@ -23,9 +23,25 @@ module.exports = function(app){
         })
     })
 
-    // 修改
-    app.get('/editviewpage', function(req, res) {
+    // 获取修改数据
+    app.get('/geteditviewpage', function(req, res) {
         getPageData(req, res, 'edit')
+    })
+
+
+    app.post('/editviewpage', function(req, res) {
+        let postBody =  req.body
+        pageFileDao.updateFile(postBody).then(function(){
+            // console.log('resolve')
+           return  res.json({
+                code: 200
+            })
+        }).catch(function(err){
+            // console.log('reject')
+            return  res.json({
+                code: 201
+            })
+        })
     })
 
     

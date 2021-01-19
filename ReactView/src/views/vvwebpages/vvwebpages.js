@@ -41,6 +41,18 @@ class  Vvwebpages extends React.Component {
                
                 },
                 {
+                    title: '上次更新时间',
+                    key: 'updatetime',
+                    dataIndex: 'updatetime',
+                    align: 'center',
+                    sorter: (a, b) => { 
+                            if ( !a ) return 
+                            return new Date(a.updatetime).getTime() -   new Date(b.updatetime).getTime()
+                    } 
+               
+                },
+                
+                {
                     title: '操作',
                     key: "action",
                     align: 'center',
@@ -80,7 +92,7 @@ class  Vvwebpages extends React.Component {
     }
     
     getEditPageData(record){
-        httpRequest.get('/editviewpage?view=' +record.pageid).then(res=>{
+        httpRequest.get('/geteditviewpage?view=' +record.pageid).then(res=>{
             if (res.status === 200) {
                 // console.log('getEditPageData', res)
                 this.props.history.push({ pathname: "/main/grapesview", state: { editData: res.data } })

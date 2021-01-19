@@ -148,7 +148,10 @@ class Grapesview extends React.Component{
 
        })
     }
-
+  
+    componentWillUnmount(){
+        if (this.state.editor) this.state.editor.destroy()
+    }
     inputPageName(event, key){
         let inputObj = {}
         inputObj[key] = event.target.value 

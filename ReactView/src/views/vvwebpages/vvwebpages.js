@@ -4,6 +4,7 @@ import { Input, Row, Col ,Button ,Table ,Popconfirm,Modal,message   } from 'antd
 import httpRequest from '../../uitls/axios/axios'
 import cookie from 'react-cookies'
 import {  EditOutlined } from '@ant-design/icons';
+import copy from 'copy-to-clipboard';
 
 class  Vvwebpages extends React.Component {
     
@@ -64,6 +65,7 @@ class  Vvwebpages extends React.Component {
                                     </Popconfirm>
                                     <a onClick={()=>  this.onCreatePage(record, 'edit')}> 修改 </a>
                                     <a onClick={ ()=> this.previewPage( record.pageid ) }> 预览 </a>
+                                    <a onClick={ ()=> this.previewPage( record.pageid, 'copy' ) }> 复制链接 </a>
                                </div>
                            )
                     }
@@ -101,8 +103,18 @@ class  Vvwebpages extends React.Component {
 
     }
 
-    previewPage(pageid){
-        window.open(httpRequest.defaults.baseURL +'ViewPage?view=' +pageid )
+    previewPage(pageid,type){
+        let url = httpRequest.defaults.baseURL +'ViewPage?view=' +pageid
+        if (type) {
+            if(copy(url)){
+                message.success('复制成功');
+            }else{
+                message.error('复制失败');
+            }
+            return
+        }
+        window.open(url )
+        
     }
     //打开修改名称窗口
     openEditNameModal(record){

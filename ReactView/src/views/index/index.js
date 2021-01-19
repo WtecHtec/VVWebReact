@@ -48,8 +48,9 @@ class Index extends React.Component{
               
               let objDataName = {}
               res.data.forEach(item=>{
-                objDataName[item.pagename] =  item.pvvalue
+                objDataName[item.pagename] =  item.previewtime? item.pvvalue : 0
               })
+              console.log(objDataDate, objDataName)
               for (let i = 6; i >= 0; i--) {
                   let cubdate = curDay.subtract(24 * i , 'hour').format('YYYY-MM-DD')
                   let keys = Object.keys(objDataName)
@@ -60,7 +61,7 @@ class Index extends React.Component{
                       resultData.push({
                         pagename: keys[j],
                         previewtime: cubdate,
-                        pvvalue: objDataDate[cubdate] ===  keys[j] ? objDataName[keys[j]] : 0
+                        pvvalue:  objDataName[keys[j]] 
                       })
                     }
                   } else {

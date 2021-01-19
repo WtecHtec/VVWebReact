@@ -56,7 +56,7 @@ class Grapesview extends React.Component{
                   {
                     type: 'href-next',
                     name: 'href',
-                    label: 'New href',
+                    label: 'href',
                   },
                 ]
               }

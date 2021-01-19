@@ -1,23 +1,31 @@
 export default  function (blockManager){
 
+    // blockManager.add('basic-div-block', {
+    //     label: ' DIV',
+    //     content: '<div> 这是一个div  </div>',
+    //     category: 'Basic', // 归类 
+        
+         
+    //   });
+
     blockManager.add('basic-div-block', {
-        label: ' DIV',
+        label: ' Div',
         content: '<div> 这是一个div  </div>',
         category: 'Basic', // 归类 
-        
          
       });
 
 
+
     blockManager.add('basic-a-block', {
-        label: 'LINK',
+        label: 'Link',
         content: '<a href="https://juejin.cn/user/2471357870245848">主页</a>',
         category: 'Basic', // 归类 
       });
 
 
     blockManager.add('basic-span-block', {
-        label: 'SPAN',
+        label: 'Span',
         content: '<span>这是一个 span </span>',
         category: 'Basic', // 归类 
       
@@ -46,13 +54,14 @@ export default  function (blockManager){
         content: '<h3>标题h3</h3>',
         category: 'Basic', // 归类 
     });
-
-
-    blockManager.add('basic-image-block', {
-        label: 'IMAGE',
-        content: '<img src="https://i.picsum.photos/id/410/70/70.jpg?hmac=JzSzh5CuWxcA4UkeZV9hu7gIkq-TIswpgS7Qori26FU" alt="暂无照片"></img>',
+  
+    blockManager.add('basic-label-block', {
+        label: 'Lable',
+        content: '<lable>标题h3</lable>',
         category: 'Basic', // 归类 
     });
+
+
    
 
 }

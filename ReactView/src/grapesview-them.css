@@ -26,3 +26,19 @@
   .gjs-four-color-h:hover {
     color: #1890ff;
   }
+
+
+
+  .gjs-block-label {
+    line-height: 65px !important;
+    border: 1px dashed  #1890ff;
+  }
+
+
+  .gjs-am-file-uploader {
+     display: none;
+  }
+
+  .gjs-am-assets-cont {
+    width: 100%;
+  }

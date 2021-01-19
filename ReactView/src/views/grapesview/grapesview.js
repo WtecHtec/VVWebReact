@@ -4,6 +4,7 @@ import httpRequest from '../../uitls/axios/axios'
 import grapesjs from 'grapesjs';
 import StyleManager from '@/uitls/grapesview/grapesview-styleMange'
 import BlockManager from '@/uitls/grapesview/BlockManager'
+import ComponentManager from '@/uitls/grapesview/ComponentsManager'
 import { Modal  , Input  } from 'antd';
 import { SwapLeftOutlined  } from '@ant-design/icons';
 import cookie from 'react-cookies'
@@ -21,6 +22,7 @@ class Grapesview extends React.Component{
     }
    
     componentDidMount(){
+        if ( !cookie.load('userInfo')) return
         if (this.props.location.state) {
             this.state.editData =  this.props.location.state.editData
             this.state.editname = this.state.editData.pathname
@@ -42,7 +44,8 @@ class Grapesview extends React.Component{
             components:  this.state.editData?  this.state.editData.html : '',
             style:  this.state.editData?  this.state.editData.css : '',
             storageManager: { autoload: false },
-            styleManager : StyleManager
+            styleManager : StyleManager,
+            plugins: [ ]
         })
 
 
@@ -61,6 +64,7 @@ class Grapesview extends React.Component{
           });
 
         this.createSaveBtn()
+        ComponentManager(this.state.editor)
         BlockManager(this.state.editor)
 
     }

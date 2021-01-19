@@ -85,6 +85,7 @@ class Index extends React.Component{
     }
     
     componentDidMount(){
+        if ( !cookie.load('userInfo')) return
         this.getLoginRecordList()
         this.getPreviewdatas()
     }

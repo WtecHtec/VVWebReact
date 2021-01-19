@@ -9,7 +9,7 @@ const Token = {
     try {
       let data = jwt.verify(token, 'wtechtec');
       return {
-        token:true
+        token: data
       };
     } catch (e) {
       return {

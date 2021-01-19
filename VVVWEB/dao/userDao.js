@@ -56,7 +56,7 @@ const  onUpdateUserById = function(params){
 const  onSelectOnlyUser = function(params){
     return new Promise(function(resolve, reject){
         
-        let  selectSql = 'SELECT userid,username,email,DATE_FORMAT(createtime,\'%Y-%m-%d %h:%i:%s\') AS createtime FROM user WHERE email = ? AND password = ? ';
+        let  selectSql = 'SELECT userid,username,email,DATE_FORMAT(createtime,\'%Y-%m-%d %h:%i:%s\') AS createtime, maxcount FROM user WHERE email = ? AND password = ? ';
         let  selectSqlParams = [params.email, md5(params.password)];
         //更新
         mysqlConnection.query(selectSql,selectSqlParams,function (err, result) {

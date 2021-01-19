@@ -3,6 +3,7 @@ import React from 'react';
 import httpRequest from '../../uitls/axios/axios'
 import grapesjs from 'grapesjs';
 import StyleManager from '@/uitls/grapesview/grapesview-styleMange'
+import BlockManager from '@/uitls/grapesview/BlockManager'
 import { Modal  , Input  } from 'antd';
 import { SwapLeftOutlined  } from '@ant-design/icons';
 import cookie from 'react-cookies'
@@ -43,7 +44,24 @@ class Grapesview extends React.Component{
             storageManager: { autoload: false },
             styleManager : StyleManager
         })
+
+
+        this.state.editor.DomComponents.addType('link', {
+            model: {
+              defaults: {
+                traits: [
+                  {
+                    type: 'href-next',
+                    name: 'href',
+                    label: 'New href',
+                  },
+                ]
+              }
+            }
+          });
+
         this.createSaveBtn()
+        BlockManager(this.state.editor)
 
     }
 
@@ -52,7 +70,7 @@ class Grapesview extends React.Component{
         let self = this
         const panelManager =  this.state.editor.Panels;
 
-        var saveButton = panelManager.addButton('options',{
+        panelManager.addButton('options',{
             id: 'saveButton',
             className: 'fa fa-save',
             command: 'saveCommand',
@@ -62,10 +80,6 @@ class Grapesview extends React.Component{
       
        this.state.editor.Commands.add('saveCommand', {
             run(editor, sender) {
-                // let htmlDom =  document.getElementsByClassName('gjs-frame')[0].contentWindow.document
-            
-                // console.log(' editor.Commands 1 html ', editor.getHtml() )
-                // console.log(' editor.Commands 1 html ', )
                 let htmlData = editor.getHtml()
                 if ( !htmlData ) {
                     Modal.warning({
@@ -76,10 +90,7 @@ class Grapesview extends React.Component{
                       });
                     return
                 }
-                self.savePageView()
-            
-    
-            
+                self.savePageView()    
             }
         });
 

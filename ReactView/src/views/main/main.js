@@ -2,7 +2,7 @@ import React from 'react';
 // import './main.css'
 import cookie from 'react-cookies'
 import {NavLink,withRouter} from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Dropdown, Modal,notification  } from 'antd';
 
 import emitter from "@/uitls/react-events" 
 import {
@@ -11,11 +11,23 @@ import {
   MacCommandOutlined,
   VideoCameraOutlined,
   SmileOutlined,
+  ImportOutlined,
+  ExclamationCircleOutlined
 } from '@ant-design/icons';
   
 const { Header, Sider, Content } = Layout;
 
+const { confirm } = Modal;
 
+const openNotification = () => {
+  const args = {
+    message: 'Notification',
+    description:
+      '反馈是不可能有反馈.',
+    duration: 0,
+  };
+  notification.open(args);
+};
 
 class Main extends React.Component {
     constructor(props) {
@@ -24,7 +36,21 @@ class Main extends React.Component {
             eventEmitter:'',
             menuSelectKey: 'index',
             collapsed: false,
-            userName: cookie.load('userInfo')? cookie.load('userInfo').username :''
+            userName: cookie.load('userInfo')? cookie.load('userInfo').username :'',
+            dropMenu:  (
+              <Menu>
+                <Menu.Item>
+                  <a  rel="noopener noreferrer" onClick={ ()=> openNotification() } >
+                    反馈
+                  </a>
+                </Menu.Item>
+                <Menu.Item>
+                  <a  rel="noopener noreferrer"  onClick={ ()=> this.showConfirm()} >
+                    退出登陆
+                  </a>
+                </Menu.Item>
+              </Menu>
+            )
         }
 
         this.toggle = () => {
@@ -34,6 +60,23 @@ class Main extends React.Component {
         };
 
     }
+
+    showConfirm() {
+        let self = this
+        confirm({
+          title: '是否退出登陆',
+          icon: <ExclamationCircleOutlined />,
+          onOk() {
+            // console.log('OK');
+            cookie.remove('authorityVal')
+            self.props.history.push('/login');
+          },
+          onCancel() {
+            // console.log('Cancel');
+          },
+        });
+    }
+
     componentDidMount() {
         let authorityVal = cookie.load('authorityVal')
         // console.log('authorityVal',authorityVal)
@@ -45,17 +88,19 @@ class Main extends React.Component {
             this.props.history.push('/main');
         }
 
-        this.state.eventEmitter = emitter.addListener("changemenu",(menu)=>{
-            console.log('changemenu', menu)
-            this.setState({
-              menuSelectKey:  menu
-            })
-            this.props.history.push('/main/' + menu );
-        });
+        emitter.addListener("changemenu",this.eventEmitter);
+    }
+
+    eventEmitter(menu) {
+      console.log('changemenu', menu)
+      this.setState({
+        menuSelectKey:  menu
+      })
+      this.props.history.push('/main/' + menu );
     }
     componentWillUnmount(){
        if (this.state.eventEmitter) {
-        emitter.removeListener(this.state.eventEmitter);
+        emitter.removeListener(this.eventEmitter);
        }
     }
 
@@ -114,6 +159,13 @@ class Main extends React.Component {
 
                   <div>
                     <SmileOutlined  className="trigger"  style={{ color:'#409EFF' }}/>
+                    <Dropdown overlay={ this.state.dropMenu}>
+                      <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                        <ImportOutlined  className="trigger"  style={{ color:'#409EFF' }} />
+                      </a>
+                    </Dropdown>
+
+                   
                     <span  className="header-name">{ this.state.userName  }</span>
                   </div>
                  

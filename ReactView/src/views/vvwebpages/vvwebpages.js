@@ -73,7 +73,8 @@ class  Vvwebpages extends React.Component {
             ],
             editname:'',
             pagename: '',
-            tableData: []
+            tableData: [],
+            isShow: false
         }
     }
    
@@ -168,7 +169,8 @@ class  Vvwebpages extends React.Component {
           
             if (res.status === 200) {
                 this.setState({
-                    tableData:  res.data
+                    tableData:  res.data.data,
+                    isShow:   res.data.maxcount
                 })
             }
         })
@@ -182,13 +184,14 @@ class  Vvwebpages extends React.Component {
       
     }
     render() { 
+        let addBtn = this.state.isShow?'': <Button style={{ marginLeft: '12px'}}  type="primary" onClick={()=>  this.onCreatePage() }>创建</Button>
         return (    
             <div style={ {overflow: 'auto', height: '100%'}}>
                 <div className="header"> 
                     <Row>
                         <Col span={4} >  <Input placeholder="名称"  onChange={ (e)=> this.inputPageName(e,'pagename') } />   </Col>
                         <Button style={{ marginLeft: '12px'}} onClick={()=>   this.getPagevViews() }>查询</Button>
-                        <Button style={{ marginLeft: '12px'}}  type="primary" onClick={()=>  this.onCreatePage() }>创建</Button>
+                        { addBtn }
                     </Row>
                 </div>
                 <div style={{ marginTop: '12px' }}>

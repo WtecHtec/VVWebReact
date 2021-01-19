@@ -29,7 +29,7 @@ module.exports = function(app) {
             } else {
                 console.log('-------- signIn ----')
                 let rel = result[0]
-                let authorization =  token.encrypt( {data:rel.userid })
+                let authorization =  token.encrypt( {data:rel.userid,maxcount: rel.maxcount })
                 rel['authorization'] =  authorization
                 console.log(rel)
                 let recordParams = {

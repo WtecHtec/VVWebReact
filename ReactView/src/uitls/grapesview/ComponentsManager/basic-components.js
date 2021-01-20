@@ -61,6 +61,7 @@ export default function(domComponents){
 
     // });
 
+
     domComponents.addType('text', {
         model: {
            defaults: {

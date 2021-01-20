@@ -5,7 +5,7 @@ export default  function (blockManager){
 
     blockManager.add('component-image-block', {
         label: 'Image',
-        content: '<img src="https://i.picsum.photos/id/410/70/70.jpg?hmac=JzSzh5CuWxcA4UkeZV9hu7gIkq-TIswpgS7Qori26FU" alt="暂无照片"></img>',
+        content: '<img src="https://user-gold-cdn.xitu.io/2020/4/16/171822f2a2cf35f7?imageView2/1/w/90/h/90/q/85/format/webp/interlace/1" alt="暂无照片"></img>',
         category: 'Components', // 归类 
     });
 
@@ -14,6 +14,26 @@ export default  function (blockManager){
         content: {type: 'video' },
         category: 'Components', // 归类 
     });
+
+
+    blockManager.add('component-progress-block', {
+        label: 'Progress',
+        content: {type: 'progress-components' },
+        category: 'Components', // 归类 
+    });
+    
+
+    // blockManager.add('component-Badge-block', {
+    //     label: 'Badge',
+    //     content: '<span class="badge badge-secondary">New</span>',
+    //     category: 'Components', // 归类 
+    // });
+
+
+    
+
+
+  
 
     // blockManager.add('basic-DiyDiv-block', {
     //     label: 'DiyDiv',

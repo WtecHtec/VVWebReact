@@ -30,3 +30,8 @@
     font-size: 18px;
     padding-right: 24px;
   }
+
+  a:not([href]) {
+    color:  #1890ff !important;
+    text-decoration: none;
+  }

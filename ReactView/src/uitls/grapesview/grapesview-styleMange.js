@@ -3,7 +3,7 @@ module.exports = {
             {
             name: '定位',
             open: false,
-            buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom']
+            buildProps: ['float', 'display', 'text-align', 'position', 'top', 'right', 'left', 'bottom']
         },{
             name: '布局',
             open: false,

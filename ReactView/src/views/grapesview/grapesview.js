@@ -64,9 +64,23 @@ class Grapesview extends React.Component{
           });
 
         this.createSaveBtn()
+        // const cssComposer =   this.state.editor.CssComposer
+
+        // document.
+
         ComponentManager(this.state.editor)
         BlockManager(this.state.editor)
-
+        
+        // console.log('getContainer:',  this.state.editor.getContainer().getElementsByTagName('iframe')[0] )
+        // 注入第三方 css
+        let iframeDocument = this.state.editor.getContainer().getElementsByTagName('iframe')[0].contentWindow.document
+        var head = iframeDocument.getElementsByTagName('head')[0]
+        
+        let cssLink = iframeDocument.createElement('link')
+        cssLink.href = 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css'
+        cssLink.rel = "stylesheet"
+        head.append(cssLink)
+   
     }
 
     // 添加保存按钮

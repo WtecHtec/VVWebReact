@@ -40,12 +40,12 @@ class Main extends React.Component {
             dropMenu:  (
               <Menu>
                 <Menu.Item>
-                  <a  rel="noopener noreferrer" onClick={ ()=> openNotification() } >
+                  <a     rel="noopener noreferrer" onClick={ ()=> openNotification() } >
                     反馈
                   </a>
                 </Menu.Item>
                 <Menu.Item>
-                  <a  rel="noopener noreferrer"  onClick={ ()=> this.showConfirm()} >
+                  <a    rel="noopener noreferrer"  onClick={ ()=> this.showConfirm()} >
                     退出登陆
                   </a>
                 </Menu.Item>

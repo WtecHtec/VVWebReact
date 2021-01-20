@@ -61,11 +61,11 @@ class  Vvwebpages extends React.Component {
                            return (
                                <div>
                                     <Popconfirm title="是否删除？" okText="确定" cancelText="取消" onConfirm={()=> this.onDelData( record) }>
-                                        <a>删除</a>
+                                        <a >删除</a>
                                     </Popconfirm>
-                                    <a onClick={()=>  this.onCreatePage(record, 'edit')}> 修改 </a>
-                                    <a onClick={ ()=> this.previewPage( record.pageid ) }> 预览 </a>
-                                    <a onClick={ ()=> this.previewPage( record.pageid, 'copy' ) }> 复制链接 </a>
+                                    <a  onClick={()=>  this.onCreatePage(record, 'edit')}> 修改 </a>
+                                    <a  onClick={ ()=> this.previewPage( record.pageid ) }> 预览 </a>
+                                    <a  onClick={ ()=> this.previewPage( record.pageid, 'copy' ) }> 复制链接 </a>
                                </div>
                            )
                     }

@@ -1,11 +1,22 @@
 
 import  basicComponents from './basic-components'
 
+import  layoutComponents from './layout-components'
+import  tableComponents from './table-components'
+import  progressComponents from './progress-components'
+
 const DomComponents = function(editor) {
  
     const domComponents = editor.DomComponents;
 
     basicComponents(domComponents)
+
+    layoutComponents(domComponents)
+
+    tableComponents(domComponents)
+
+    progressComponents(domComponents)
+    
 
     // editor.DomComponents.addType('my-input-type', {
     //     // Make the editor understand when to bind `my-input-type`

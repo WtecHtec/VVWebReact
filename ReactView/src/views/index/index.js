@@ -42,15 +42,19 @@ class Index extends React.Component{
               // console.log('getPreviewdatas',  res.data)
               let resultData = []
               let objDataDate = {}
+        
+              let objDataName = {}
+              let objDataDateName = {}
               res.data.forEach(item=>{
                 objDataDate[item.previewtime] =  item.pagename
-              })
-              
-              let objDataName = {}
-              res.data.forEach(item=>{
                 objDataName[item.pagename] =  item.previewtime? item.pvvalue : 0
+                objDataDateName[item.previewtime + item.pagename] =   item.previewtime? item.pvvalue : 0
               })
-              console.log(objDataDate, objDataName)
+
+              
+           
+
+              console.log(objDataDate, objDataName,objDataDateName)
               for (let i = 6; i >= 0; i--) {
                   let cubdate = curDay.subtract(24 * i , 'hour').format('YYYY-MM-DD')
                   let keys = Object.keys(objDataName)
@@ -61,7 +65,7 @@ class Index extends React.Component{
                       resultData.push({
                         pagename: keys[j],
                         previewtime: cubdate,
-                        pvvalue:  objDataName[keys[j]] 
+                        pvvalue:  objDataDateName[cubdate + keys[j] ]?   objDataDateName[cubdate + keys[j] ] : 0
                       })
                     }
                   } else {
@@ -76,7 +80,7 @@ class Index extends React.Component{
                   }
 
               }
-              // console.log('resultData:', objDataDate, objDataName ,resultData)
+              console.log('resultData:', objDataDate, objDataName ,resultData)
               this.setState({
                 previewdatas: resultData
               })
